@@ -1,9 +1,18 @@
 # OnlineFileManangetmentSystem React App
 
-## Project Structure
-
-
-
+## Core Project Structure
+```
+.
+├── src         # main source files 
+│   ├── components          # seperate re-useable components 
+│   ├── redux               # redux for states managements
+│   ├── App.js              # main entrance
+│   ├── index.js            # some basic configurations for App
+│   └── ...                 # etc.
+├── public                    # public resources(image or somethings)      
+└── README.md
+└── ...
+```
 
 ## Available Scripts
 
