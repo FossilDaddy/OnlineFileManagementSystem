@@ -2,51 +2,56 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { React, useEffect, useState } from 'react'
 import { shallowEqual, useSelector, useDispatch } from 'react-redux';
-import { createFolderEvent } from '../../redux/actionCreators/filefolderActionCreator';
+import { createFileEvent } from '../../redux/actionCreators/filefolderActionCreator';
 
 
-const CreateFolderPanel = ({setIsCreateFolderPanelOpen}) => {
+const CreateFilePanel = ({setIsCreateFilePanelOpen}) => {
 
-  const [folderName, setFolderName] = useState("");
-  const [isCreateSuccess, setIsCreateSuccess] = useState(false);
-
-  const {userFolders, user, currentPath} = useSelector((state) => ({
-    userFolders: state.filefolders.userFolders,
+  const [fileName, setFileName] = useState("");
+  const {userFiles, user, currentPath} = useSelector((state) => ({
+    userFiles: state.filefolders.userFiles,
     user: state.auth.user,
     currentPath: state.filefolders.currentPath,
   }), shallowEqual);
 
-
-  const checkFolderAlreadyExist = (name) =>{
-    const isExist = userFolders && userFolders.find((folder) => folder.name === name);
+  const checkFileAlreadyExist = (name) =>{
+    const isExist = userFiles && userFiles.find((file) => file.name === name);
     return isExist ? true : false;
   }
   const dispatch = useDispatch();
 
+  const [isCreateSuccess, setIsCreateSuccess] = useState(false);
   useEffect(()=>{
     if(isCreateSuccess){
+      setFileName("");
       setIsCreateSuccess(false);
-      setFolderName("");
-      setIsCreateFolderPanelOpen(false);
+      setIsCreateFilePanelOpen(false);
     }
-  }, [isCreateSuccess, setIsCreateFolderPanelOpen])
+  }, [isCreateSuccess, setIsCreateFilePanelOpen])
 
   const handleSubmit = (e) =>{
     e.preventDefault();
-    if(!folderName){
-      alert("folder name cannot be empty");
+    if(!fileName){
+      alert("file name cannot be empty");
     }else{
-      if(checkFolderAlreadyExist(folderName)){
-        alert("folder already existed!");
+      var extension = false;
+      if(fileName.split('.').length > 1){
+        extension = true;
+      }
+
+      if(checkFileAlreadyExist(extension ? fileName : `${fileName}.txt`)){
+        alert("file already existed!");
       }else{
         // submit
         const data = {
-          name: folderName,
-          type: "folder",
+          name: extension ? fileName : `${fileName}.txt`,
+          type: "file",
           userId: user ? user.uid : 0,
           path: currentPath,
+          extension: extension ? fileName.split(".")[1] : "txt", 
+          data: "",
         };
-        dispatch(createFolderEvent(data, setIsCreateSuccess));
+        dispatch(createFileEvent(data, setIsCreateSuccess));
       }
     }
   };
@@ -56,8 +61,8 @@ const CreateFolderPanel = ({setIsCreateFolderPanelOpen}) => {
       <div className='row align-items-cnter justify-content-center'>
         <div className='col-md-4 mt-5 bg-white rounded p-4'>
           <div className='d-flex justify-content-between'>
-            <h4>Create Folder</h4>
-            <button className='btn' onClick={() => setIsCreateFolderPanelOpen(false)}>
+            <h4>Create File</h4>
+            <button className='btn' onClick={() => setIsCreateFilePanelOpen(false)}>
               <FontAwesomeIcon icon={faTimes} size="lg"
               />
             </button>
@@ -66,10 +71,10 @@ const CreateFolderPanel = ({setIsCreateFolderPanelOpen}) => {
           <div className='d-flex flex-column align-items-center'>
             <form className='mt-3 w-100' onSubmit={handleSubmit}>
               <div className='form-group'>
-                <input type="text" className='form-control' id="folderName" 
-                placeholder='New folder name...' 
-                value={folderName}
-                onChange={(e)=> setFolderName(e.target.value)}
+                <input type="text" className='form-control' id="fileName" 
+                placeholder='New file name... e,g. file.txt' 
+                value={fileName}
+                onChange={(e)=> setFileName(e.target.value)}
                 />
               </div>
               <button type="submit" className='btn btn-primary mt-5 form-control' >Create</button>
@@ -80,4 +85,4 @@ const CreateFolderPanel = ({setIsCreateFolderPanelOpen}) => {
     </div>
   )
 }
-export default CreateFolderPanel;
+export default CreateFilePanel;

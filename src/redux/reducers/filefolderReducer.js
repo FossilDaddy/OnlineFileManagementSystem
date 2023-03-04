@@ -30,17 +30,13 @@ const filefolderReducer = (state = initialState, { type, payload }) => {
       state = {...state, currentPath: payload}
       return state
     case CREATE_USER_FILE:
-      state = { ...state, userFiles: payload }
+      state = { ...state, userFiles: [...state.userFiles, payload] }
       return state
     case UPDATE_USER_FILE_DATA:
-      const currentUserFile = state.userFiles.find(
-        (file) => file.docId === payload.docId
-      )
-      currentUserFile.data.data = payload.data
       state = {
         ...state,
         userFiles: state.userFiles.map((file) =>
-          file.docId === payload.docId ? currentUserFile : file
+          file.name === payload.name ? {...file, data: payload.data} : file
         )
       }
       return state

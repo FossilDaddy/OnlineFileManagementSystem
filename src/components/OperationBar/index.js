@@ -1,25 +1,57 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloudArrowUp, faFileCirclePlus, faFolderPlus } from '@fortawesome/free-solid-svg-icons';
-import Breadcrumb from 'react-bootstrap/Breadcrumb'
+import { useNavigate } from 'react-router-dom';
+import { changeCurrentPathEvent } from '../../redux/actionCreators/filefolderActionCreator';
 
-const OperationBar = ({setIsCreateFolderPanelOpen}) => {
+const OperationBar = ({setIsCreateFolderPanelOpen, setIsCreateFilePanelOpen}) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const {currentPath} = useSelector((state) => ({
     currentPath: state.filefolders.currentPath,
   }));
 
+  const handleNavigate = (index, folderName) => {
+    if(index === 0){
+      navigate("/dashboard");
+      dispatch(changeCurrentPathEvent("root"));
+    }else{
+      var link = "root";
+      for(var i = 1; i <= index; i++){
+        link += "/" + currentPath.split('/')[i];
+      }
+      navigate(`/dashboard/folder/${link}`);
+      dispatch(changeCurrentPathEvent(link));
+    }
+  };
 
   return (
     <div>
       {/* top bar for upload/create file & folder */}
-      <nav className="navbar navbar-expand-lg navbar-light bg-white ">
-      {/* <p className='large ms-4'>{currentPath}</p> */}
-      <Breadcrumb>
-        <Breadcrumb.Item href="/dashboard">root</Breadcrumb.Item>
-        <Breadcrumb.Item active>New Folder</Breadcrumb.Item>
-      </Breadcrumb>
+      <nav className="navbar navbar-expand-lg mt-2 navbar-light bg-white py-2 shadow-sm">
+      
+      {/* navigate path */}
+      <nav className='ms-5' aria-label='breadcrumb'>
+        <ol className='breadcrumb d-flex align-items-center'>
+          {currentPath !== "root" ? (
+            <>
+              {currentPath.split('/').map((folderName, index) =>(
+                index === currentPath.split('/').length - 1 ? (
+                  <li className="breadcrumb-item active">{folderName}</li>
+                ):(
+                  <button key={`${index}${folderName}`} className={"breadcrumb-item  btn btn-link text-decoration-none"}onClick={()=>handleNavigate(index,folderName)}
+                >{index === 0 ? "Root" : folderName}</button>
+                )
+              ))}
+            </>
+          ) : (
+            <li className="breadcrumb-item active">Root</li>
+          )}
+        </ol>
+      </nav>
+
       
       <ul className='navbar-nav ms-auto'>
         <li className='nav-item mx-2'>
@@ -30,7 +62,7 @@ const OperationBar = ({setIsCreateFolderPanelOpen}) => {
         </li>
 
         <li className='nav-item mx-2'>
-          <button className='btn btn-outline-dark'>
+          <button className='btn btn-outline-dark' onClick={()=>setIsCreateFilePanelOpen(true)}>
             <FontAwesomeIcon icon={faFileCirclePlus} /> &nbsp;
             Create File
           </button>

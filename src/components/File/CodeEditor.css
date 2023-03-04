@@ -1,0 +1,60 @@
+.code-edit-container {
+  position: relative !important;
+  height: 500px;
+  color: #fff;
+}
+
+.code-output {
+  position: absolute;
+  top:0;
+  left: 0;
+  width: 100%;
+  height: 100% !important;
+  padding: 1rem;
+  border: none;
+  font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
+  background: transparent;
+  white-space: pre-wrap;
+  line-height: 1.5em;
+  word-wrap: break-word;
+  font-size: 1rem;
+  z-index: 3;
+  pointer-events: none;
+  overflow-y: auto;
+  margin: 0;
+}
+
+code {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 0;
+  padding: 1rem;
+  background: #fff !important;
+  display: block;
+  font-size: 0.8rem;
+  font-family: "PT Mono", monospace;
+}
+
+pre {
+  background:#fff !important;
+}
+
+.code-edit-container :not(pre)>code[class*="languague-"],
+.code-edit-container pre[class*="languague-"]{
+  background: transparent;
+  margin: 0;
+}
+
+
+.code-input{
+  opacity: 1;
+  margin: 0;
+  resize: none;
+  padding: 15px;
+  padding-left: 39px;
+  font-size: 0.8rem;
+  box-shadow: none !important;
+  outline: none !important;
+}
+

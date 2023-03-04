@@ -1,4 +1,4 @@
-import { CREATE_FOLDER, GET_USER_FOLDERS_AND_FILES, SET_LOADING, CHANGE_CURRENT_PATH } from "../actionTypes/filefoldersActionTypes";
+import { CREATE_FOLDER, GET_USER_FOLDERS_AND_FILES, SET_LOADING, CHANGE_CURRENT_PATH, CREATE_USER_FILE, UPDATE_USER_FILE_DATA } from "../actionTypes/filefoldersActionTypes";
 
 const setLoading = (payload) =>({
   type:SET_LOADING,
@@ -25,10 +25,11 @@ const createFolder = (payload) =>({
   payload,
 })
 
-export const createFolderEvent = (data) =>(dispatch)=>{
+export const createFolderEvent = (data, setIsCreateSuccess) =>(dispatch)=>{
   //backend api needed.
   dispatch(createFolder(data));
   alert("Folder Created Sucessfully");
+  setIsCreateSuccess(true);
 }
 
 const changeFolder = (payload) =>({
@@ -39,5 +40,26 @@ const changeFolder = (payload) =>({
 export const changeCurrentPathEvent = (data) => (dispatch)=>{
   dispatch(changeFolder(data));
   console.log("change current path to: ", data);
-  dispatch(getFoldersAndFiles(data))
+  dispatch(getFoldersAndFilesEvent(data))
 }
+
+const createFile = (payload) =>({
+  type:CREATE_USER_FILE,
+  payload,
+})
+
+export const createFileEvent = (data, setIsCreateSuccess) => (dispatch)=>{
+  dispatch(createFile(data));
+  alert("File Created Successfully");
+  setIsCreateSuccess(true);
+}
+
+const updateFile = (payload) =>({
+  type:UPDATE_USER_FILE_DATA,
+  payload,
+})
+
+export const updateFileEvent = (name, data) => (dispatch) =>{
+  dispatch(updateFile({name, data}));
+  alert("File Update Successfully");
+} 
