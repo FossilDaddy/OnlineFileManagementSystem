@@ -1,14 +1,22 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 const LoginPage = () => {
+  const dispatch = useDispatch();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  
+  const handleSubmit = (e)=>{
+    e.preventDefault();
+    console.log("login");
+    // dispatch(some events);
+  }
   return (
         <div className='container-fluid'>
         <h1 className='display-1 my-5 text-center'>Login here</h1>
             <div className='row'>
                 <div className='col-md-5 mx-auto mt-5'>
-                    <form>
+                    <form onSubmit={handleSubmit}>
                         <div className='form-group my-2'>
                             <input type="text" name="username" className="form-control" placeholder='username' value={username
                             }

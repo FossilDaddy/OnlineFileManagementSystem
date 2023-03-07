@@ -5,7 +5,7 @@ import { faCloudArrowUp, faFileCirclePlus, faFolderPlus } from '@fortawesome/fre
 import { useNavigate } from 'react-router-dom';
 import { changeCurrentPathEvent } from '../../redux/actionCreators/filefolderActionCreator';
 
-const OperationBar = ({setIsCreateFolderPanelOpen, setIsCreateFilePanelOpen}) => {
+const OperationBar = ({setIsCreateFolderPanelOpen, setIsCreateFilePanelOpen, setIsUploadFilePanelOpen}) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -55,7 +55,7 @@ const OperationBar = ({setIsCreateFolderPanelOpen, setIsCreateFilePanelOpen}) =>
       
       <ul className='navbar-nav ms-auto'>
         <li className='nav-item mx-2'>
-          <button className='btn btn-outline-dark'>
+          <button className='btn btn-outline-dark' onClick={()=>setIsUploadFilePanelOpen(true)}>
             <FontAwesomeIcon icon={faCloudArrowUp} /> &nbsp;
             Upload File
           </button>

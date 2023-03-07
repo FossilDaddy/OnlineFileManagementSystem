@@ -8,11 +8,13 @@ import OperationBar from '../OperationBar';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import FolderComponent from '../Folder';
 import FileComponent from '../File';
+import UploadFilePanel from '../UploadFile';
 
 const DashboardPage = () => {
   
   const [isCreateFolderPanelOpen, setIsCreateFolderPanelOpen] = useState(false);
   const [isCreateFilePanelOpen, setIsCreateFilePanelOpen] = useState(false);
+  const [isUploadFilePanelOpen, setIsUploadFilePanelOpen] = useState(false);
   const [isShowOpBar, setIsShowOpBar] = useState(true);
   const { pathname }  = useLocation();
 
@@ -52,10 +54,17 @@ const DashboardPage = () => {
           <CreateFilePanel setIsCreateFilePanelOpen = {setIsCreateFilePanelOpen}/>
         )
       }
+      {
+        /* upload file panel */
+        isUploadFilePanelOpen && (
+          <UploadFilePanel setIsUploadFilePanelOpen = {setIsUploadFilePanelOpen}/>
+        )
+      }
 
       {!isLoading && isShowOpBar && (
         <OperationBar setIsCreateFolderPanelOpen = {setIsCreateFolderPanelOpen} 
                       setIsCreateFilePanelOpen = {setIsCreateFilePanelOpen}
+                      setIsUploadFilePanelOpen = {setIsUploadFilePanelOpen}
       />)}
       
       <Routes>
