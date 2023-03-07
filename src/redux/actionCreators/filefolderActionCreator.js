@@ -48,8 +48,7 @@ const createFile = (payload) =>({
   payload,
 })
 
-export const createFileEvent = (file, data, setIsCreateSuccess) => (dispatch)=>{
-  console.log(file);
+export const createFileEvent = (data, setIsCreateSuccess) => (dispatch)=>{
   dispatch(createFile(data));
   alert("File Created Successfully");
   setIsCreateSuccess(true);
@@ -66,11 +65,9 @@ export const updateFileEvent = (name, data) => (dispatch) =>{
 } 
 
 
-const uploadUserFile = (payload) =>({
-  type:UPLOAD_USER_FILE,
-  payload,
-})
-
-export const uploadUserFileEvent = (data) => (dispatch) =>{
-  console.log(data);
+export const uploadUserFileEvent = (file, data, setIsCreateSuccess) => (dispatch) =>{
+  console.log(file);
+  dispatch(createFile(data));
+  alert("File Uploaded Successfully");
+  setIsCreateSuccess(true);
 }

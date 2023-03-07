@@ -1,9 +1,8 @@
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { current } from '@reduxjs/toolkit';
 import { React, useEffect, useState } from 'react'
 import { shallowEqual, useSelector, useDispatch } from 'react-redux';
-import { createFileEvent } from '../../redux/actionCreators/filefolderActionCreator';
+import { uploadUserFileEvent } from '../../redux/actionCreators/filefolderActionCreator';
 
 
 const UploadFilePanel = ({setIsUploadFilePanelOpen}) => {
@@ -41,7 +40,7 @@ const UploadFilePanel = ({setIsUploadFilePanelOpen}) => {
           user: user,
           type: "file",
         }
-        dispatch(createFileEvent(file, data, setIsCreateSuccess));
+        dispatch(uploadUserFileEvent(file, data, setIsCreateSuccess));
       }else{
         alert("File already existed!");
       }
