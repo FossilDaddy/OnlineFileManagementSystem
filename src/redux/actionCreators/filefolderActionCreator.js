@@ -1,3 +1,4 @@
+import { getFoldersAndFilesFromS3 } from "../../backend/filefolderBackend";
 import { CREATE_FOLDER, GET_USER_FOLDERS_AND_FILES, SET_LOADING, CHANGE_CURRENT_PATH, CREATE_USER_FILE, UPDATE_USER_FILE_DATA, UPLOAD_USER_FILE } from "../actionTypes/filefoldersActionTypes";
 
 const setLoading = (payload) =>({
@@ -5,19 +6,19 @@ const setLoading = (payload) =>({
   payload,
 })
 
-const getFoldersAndFiles = (payload) =>({
+const getFoldersAndFiles = (payload) => ({
   type: GET_USER_FOLDERS_AND_FILES,
   payload,
 })
 
-export const getFoldersAndFilesEvent = (data) =>(dispatch) =>{
+export const getFoldersAndFilesEvent = (data) => (dispatch) => {
   dispatch(setLoading(true));
   // get user folders info, backend api needed. now moniter backend op
-  setTimeout(() => {
-    const testdata = {"userFolders":[], "userFiles":[]};
-    dispatch(getFoldersAndFiles(testdata));
+  getFoldersAndFilesFromS3(data, (result) => {
+    dispatch(getFoldersAndFiles(result)); 
     dispatch(setLoading(false));
-  }, 10);  
+  }); 
+  
 }
 
 const createFolder = (payload) =>({
@@ -38,8 +39,8 @@ const changeFolder = (payload) =>({
 })
 
 export const changeCurrentPathEvent = (data) => (dispatch)=>{
-  dispatch(changeFolder(data));
-  console.log("change current path to: ", data);
+  dispatch(changeFolder(data.path));
+  console.log("change current path to: ", data.path);
   dispatch(getFoldersAndFilesEvent(data))
 }
 
