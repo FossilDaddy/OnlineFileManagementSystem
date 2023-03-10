@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import {getUserNameAndPassWordEvent} from "../../redux/actionCreators/authActionCreator"
+
 const LoginPage = () => {
   const dispatch = useDispatch();
   const [username, setUsername] = useState("");
@@ -8,8 +10,19 @@ const LoginPage = () => {
   
   const handleSubmit = (e)=>{
     e.preventDefault();
-    console.log("login");
-    // dispatch(some events);
+    if(username && password){
+        const data={
+            username,
+            password
+        };
+        dispatch(getUserNameAndPassWordEvent(data));
+        //console.log("handle sucess");
+    }
+    else{
+        window.alert("username or password cannot be blank");
+    }
+    //useEffect(,);
+    
   }
   return (
         <div className='container-fluid'>
@@ -30,7 +43,7 @@ const LoginPage = () => {
                             />
 
                         </div>
-                        <button type="submit" className="btn btn-primary my-2 form-control">Login
+                        <button type="submit" className="btn btn-primary my-2 form-control" >Login
                         </button>
                     </form>
                     <Link to="/register">
