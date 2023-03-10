@@ -1,21 +1,16 @@
 import { getUserFromServer, registerUserToServer } from "../../backend/authBackend";
-import {LOGIN_IN,RESET_USER,REGISTER} from "../actionTypes/authActionTypes"
-import { SET_LOADING } from "../actionTypes/filefoldersActionTypes";
-import {DashboardPage} from "../../components/Dashboard";
-
+import { LOGIN_IN, REGISTER } from "../actionTypes/authActionTypes"
 
 const getUserNameAndPassWord = (payload) =>({
     type:LOGIN_IN,
     payload,
   })
   
-export const getUserNameAndPassWordEvent = (data) =>(dispatch) =>{
-    console.log("dispatch sucess");
+export const getUserNameAndPassWordEvent = (data, callback) =>(dispatch) =>{
     getUserFromServer(data,(result)=>{
         dispatch(getUserNameAndPassWord(result));
-    });
-    //console.log("跳转");
-    //navigate(DashboardPage);
+    })
+    callback();
 }
 
 const registerUser = (payload) =>({

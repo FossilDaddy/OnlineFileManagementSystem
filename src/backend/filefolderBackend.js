@@ -1,20 +1,25 @@
 import { mapResponseToFilesFolders } from "../utils/fileflderUtils"
 
-const apiBaseUrl = "http://localhost:8080/"
+const apiBaseUrl = "http://localhost:8080"
 
 export async function getFoldersAndFilesFromS3(data, callback) {
-    const path = data.userId + "/";
-    const result = await fetch(apiBaseUrl + data.userId + "/files", {
+    const path = data.path, user = data.user;
+    const response = await fetch(apiBaseUrl + "/users/" + user.username + "/files?" + new URLSearchParams({path: user.username + "/" + path}), {
         method: "GET",
         headers: {
-            "Accept": "Application/json",
-            "Content-Type": "application/json"
-        },
-        body: {
-            path: path
+            "Authorization": "Basic " + btoa(`${user.username}:${user.password}`)
         }
-    })
-    .then(response => response.json())
-    .then(data => mapResponseToFilesFolders(data.content.result));
-    callback(result);
+    });
+    if (!response.ok) {
+        throw new Error(response.status);
+    }
+    const result = await response.json();
+    if (result.status === "error") {
+        // pop up warning window for error message.
+    }
+    const filefolders = result.status === "success" && result.content !== undefined
+        ? mapResponseToFilesFolders(result.content, user.username + "/" + path + "/") 
+        : {"userFiles": [], "userFolders": []};
+
+    callback(filefolders);
 }
