@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {registerUserEvent} from "../../redux/actionCreators/authActionCreator";
 
 const RegisterPage = () => {
@@ -9,23 +9,20 @@ const RegisterPage = () => {
   const [passwordConfirm, setPasswordConfirm] = useState("");
 
   const dispatch=useDispatch();
-  
+  const navigate = useNavigate();
+
   const handleSubmit = (e)=>{
     e.preventDefault();
-    console.log("handle");
     if(username && password && password === passwordConfirm){
         const data={
             "userName":username,
             password
         };
-        dispatch(registerUserEvent(data));
-        console.log("handle sucess");
+        dispatch(registerUserEvent(data, ()=>{navigate("/login")}));
     }
     else{
-        window.alert("please reinput your information");
+        alert("please confirm your password");
     }
-    //useEffect(,);
-    
   }
 
 

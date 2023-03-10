@@ -5,7 +5,7 @@ import CreateFilePanel from '../CreateFile';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeCurrentPathEvent } from '../../redux/actionCreators/filefolderActionCreator';
 import OperationBar from '../OperationBar';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import FolderComponent from '../Folder';
 import FileComponent from '../File';
 import UploadFilePanel from '../UploadFile';
@@ -19,13 +19,22 @@ const DashboardPage = () => {
   const { pathname }  = useLocation();
 
   const dispatch = useDispatch();
-  const { isLoading, userFolders, userFiles, currentPath, user } = useSelector((state) =>({
+  const navigate = useNavigate();
+  const { isLoggedIn, isLoading, userFolders, userFiles, currentPath, user } = useSelector((state) =>({
+    isLoggedIn: state.auth.isLoggedIn,
     isLoading: state.filefolders.isLoading,
     userFolders: state.filefolders.userFolders,
     userFiles: state.filefolders.userFiles,
     currentPath: state.filefolders.currentPath,
     user: state.auth.user
   }));
+
+  useEffect(()=>{
+    console.log("dashboard", isLoggedIn);
+    if(!isLoggedIn){
+      navigate("/");
+    }
+  }, [isLoggedIn, navigate])
 
   useEffect(()=>{
     if(isLoading){

@@ -19,7 +19,7 @@ const LoginPage = () => {
         dispatch(getUserNameAndPassWordEvent(data, () => {navigate("/dashboard")}));
     }
     else{
-        window.alert("username or password cannot be blank");
+        alert("username or password cannot be blank");
     }    
   }
   return (

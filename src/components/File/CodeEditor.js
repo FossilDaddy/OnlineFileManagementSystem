@@ -18,7 +18,6 @@ const CodeEditor = ({ fileName , fileData, setFileData}) => {
     let value = fileData,
       selStartPos = evt.currentTarget.selectionStart;
     
-    console.log(evt.currentTarget);
 
     if(evt.key === "Tab"){
       value = value.substring(0, selStartPos) + "    " + value.substring(selStartPos, value.length);
