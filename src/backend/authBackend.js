@@ -1,30 +1,29 @@
-import { mapResponseToFilesFolders } from "../utils/fileflderUtils"
-import DashboardPage from "../components/Dashboard"
-import { Navigate } from "react-router-dom";
 
-const apiBaseUrl = "http://localhost:8080/users/"
+const loginUrl = "http://localhost:8080/users/"
 
-export function getUserFromServer(data, callback) {
+export async function getUserFromServer(data, callback) {
     const path = data.username;
-    var basicAuth='Basic '+ btoa(data.username+":"+data.password);
-    fetch(apiBaseUrl+path, {
+    const basicAuth='Basic '+ btoa(data.username+":"+data.password);
+    
+    await fetch(loginUrl+path, {
         headers: {
             "Authorization":basicAuth
         }
     })
     .then(response => response.json())
     .then(() => {
-       callback(data);
+        alert("login successful");
+        callback(data);
     }).catch(() => {
-        window.alert("login unsuccessful");
+        alert("login unsuccessful");
     });
 }
 
-const baseUrl = "http://localhost:8080/register"
+const registerUrl = "http://localhost:8080/register"
 export async function registerUserToServer(data,callback) {
     console.log(data);
 
-    const response=await fetch(baseUrl, {
+    await fetch(registerUrl, {
     method: "POST", 
     headers: {
         'Accept': "application/json",
@@ -35,9 +34,8 @@ export async function registerUserToServer(data,callback) {
     .then((response) => response.json())
     .then((data) => {
         console.log("Success:", data);
-        callback(data);
-        window.location.href="login/";
-
+        alert("Register Successfully!")
+        callback();
     })
     .catch((error) => {
         console.error("Error:", error);

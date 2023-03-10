@@ -1,4 +1,4 @@
-import { LOGIN_IN, RESET_USER,REGISTER } from '../actionTypes/authActionTypes'
+import { LOGIN_IN, RESET_USER } from '../actionTypes/authActionTypes'
 
 const initialState = {
   isLoggedIn: false,
@@ -15,9 +15,6 @@ const authReducer = (state = initialState, { type, payload }) => {
       return state
     case RESET_USER:
       state = initialState
-      return state
-    case REGISTER:
-      state=initialState
       return state
     default:
       return state
