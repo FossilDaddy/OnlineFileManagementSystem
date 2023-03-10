@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
-import {getUserNameAndPassWordEvent} from "../../redux/actionCreators/authActionCreator"
+import { Link, useNavigate } from "react-router-dom";
+import { getUserNameAndPassWordEvent } from "../../redux/actionCreators/authActionCreator"
 
 const LoginPage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   
@@ -12,17 +13,14 @@ const LoginPage = () => {
     e.preventDefault();
     if(username && password){
         const data={
-            username,
-            password
+            username: username,
+            password: password
         };
-        dispatch(getUserNameAndPassWordEvent(data));
-        //console.log("handle sucess");
+        dispatch(getUserNameAndPassWordEvent(data, () => {navigate("/dashboard")}));
     }
     else{
         window.alert("username or password cannot be blank");
-    }
-    //useEffect(,);
-    
+    }    
   }
   return (
         <div className='container-fluid'>

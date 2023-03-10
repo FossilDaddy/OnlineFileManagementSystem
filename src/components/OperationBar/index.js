@@ -9,21 +9,22 @@ const OperationBar = ({setIsCreateFolderPanelOpen, setIsCreateFilePanelOpen, set
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const {currentPath} = useSelector((state) => ({
+  const {currentPath, user} = useSelector((state) => ({
     currentPath: state.filefolders.currentPath,
+    user: state.auth.user
   }));
 
   const handleNavigate = (index, folderName) => {
     if(index === 0){
       navigate("/dashboard");
-      dispatch(changeCurrentPathEvent("root"));
+      dispatch(changeCurrentPathEvent({"path": "root/", "user": user}));
     }else{
-      var link = "root";
+      var link = "root/";
       for(var i = 1; i <= index; i++){
-        link += "/" + currentPath.split('/')[i];
+        link += currentPath.split('/')[i] + "/";
       }
       navigate(`/dashboard/folder/${link}`);
-      dispatch(changeCurrentPathEvent(link));
+      dispatch(changeCurrentPathEvent({"path": link, "user": user}));
     }
   };
 
@@ -38,11 +39,11 @@ const OperationBar = ({setIsCreateFolderPanelOpen, setIsCreateFilePanelOpen, set
           {currentPath !== "root" ? (
             <>
               {currentPath.split('/').map((folderName, index) =>(
-                index === currentPath.split('/').length - 1 ? (
+                index === currentPath.split('/').length - 1 && folderName !== "" ? (
                   <li className="breadcrumb-item active">{folderName}</li>
                 ):(
                   <button key={`${index}${folderName}`} className={"breadcrumb-item  btn btn-link text-decoration-none"}onClick={()=>handleNavigate(index,folderName)}
-                >{index === 0 ? "Root" : folderName}</button>
+                >{index === 0 ? "root" : folderName}</button>
                 )
               ))}
             </>

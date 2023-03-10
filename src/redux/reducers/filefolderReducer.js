@@ -10,7 +10,7 @@ import {
 
 const initialState = {
   isLoading: true,
-  currentPath: 'root',
+  currentPath: 'root/',
   userFolders: [],
   userFiles: [],
 }

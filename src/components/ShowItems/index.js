@@ -11,13 +11,13 @@ const ShowItems = ({tittle, items}) => {
   const dispatch = useDispatch();
   const { currentPath, user } = useSelector((state)=>({
     currentPath: state.filefolders.currentPath,
-    user: state.auth.user,
+    user: state.auth.user
   }));
   const handleDoubleClick = (item) =>{
     if(item.type && item.type === 'file'){
       navigate(`/dashboard/file/${item.name}`);
     }else{
-      dispatch(changeCurrentPathEvent({"userId": `${user}`, "path": `${currentPath}/${item.name}`}));
+      dispatch(changeCurrentPathEvent({"user": user, "path": `${currentPath}${item.name}/`}));
       navigate(`/dashboard/folder/${currentPath}/${item.name}`);
     }
   }
