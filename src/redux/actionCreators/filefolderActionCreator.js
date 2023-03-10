@@ -13,12 +13,10 @@ const getFoldersAndFiles = (payload) => ({
 
 export const getFoldersAndFilesEvent = (data) => (dispatch) => {
   dispatch(setLoading(true));
-  // get user folders info, backend api needed. now moniter backend op
   getFoldersAndFilesFromS3(data, (result) => {
     dispatch(getFoldersAndFiles(result)); 
     dispatch(setLoading(false));
-  }); 
-  
+  })
 }
 
 const createFolder = (payload) =>({
@@ -40,7 +38,6 @@ const changeFolder = (payload) =>({
 
 export const changeCurrentPathEvent = (data) => (dispatch)=>{
   dispatch(changeFolder(data.path));
-  console.log("change current path to: ", data.path);
   dispatch(getFoldersAndFilesEvent(data))
 }
 

@@ -9,21 +9,22 @@ const OperationBar = ({setIsCreateFolderPanelOpen, setIsCreateFilePanelOpen, set
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const {currentPath} = useSelector((state) => ({
+  const {currentPath, user} = useSelector((state) => ({
     currentPath: state.filefolders.currentPath,
+    user: state.auth.user
   }));
 
   const handleNavigate = (index, folderName) => {
     if(index === 0){
       navigate("/dashboard");
-      dispatch(changeCurrentPathEvent("root"));
+      dispatch(changeCurrentPathEvent({"path": "root", "user": user}));
     }else{
       var link = "root";
       for(var i = 1; i <= index; i++){
         link += "/" + currentPath.split('/')[i];
       }
       navigate(`/dashboard/folder/${link}`);
-      dispatch(changeCurrentPathEvent(link));
+      dispatch(changeCurrentPathEvent({"path": link, "user": user}));
     }
   };
 

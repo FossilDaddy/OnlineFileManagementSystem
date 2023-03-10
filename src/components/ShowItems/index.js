@@ -11,7 +11,7 @@ const ShowItems = ({tittle, items}) => {
   const dispatch = useDispatch();
   const { currentPath, user } = useSelector((state)=>({
     currentPath: state.filefolders.currentPath,
-    user: state.auth.user,
+    user: state.auth.user
   }));
   const handleDoubleClick = (item) =>{
     if(item.type && item.type === 'file'){

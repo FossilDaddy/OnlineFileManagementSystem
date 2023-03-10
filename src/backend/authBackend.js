@@ -4,28 +4,20 @@ import { Navigate } from "react-router-dom";
 
 const apiBaseUrl = "http://localhost:8080/users/"
 
-export async function getUserFromServer(data,callback) {
+export function getUserFromServer(data, callback) {
     const path = data.username;
-    console.log(data.username+data.password);
     var basicAuth='Basic '+ btoa(data.username+":"+data.password);
-    console.log(basicAuth);
-    const result = fetch(apiBaseUrl+path, {
+    fetch(apiBaseUrl+path, {
         headers: {
             "Authorization":basicAuth
         }
     })
     .then(response => response.json())
-    .then(result => {
-       console.log(result);
-       callback(result);
-       window.location.href="dashboard/";
-       //return result;
-    }).catch((error) => {
+    .then(() => {
+       callback(data);
+    }).catch(() => {
         window.alert("login unsuccessful");
     });
-    // console.log("navigation");
-    // console.log(result);
-    // callback(result);
 }
 
 const baseUrl = "http://localhost:8080/register"

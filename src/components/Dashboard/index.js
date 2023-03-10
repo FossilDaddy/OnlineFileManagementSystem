@@ -19,18 +19,19 @@ const DashboardPage = () => {
   const { pathname }  = useLocation();
 
   const dispatch = useDispatch();
-  const { isLoading, userFolders, userFiles, currentPath } = useSelector((state) =>({
+  const { isLoading, userFolders, userFiles, currentPath, user } = useSelector((state) =>({
     isLoading: state.filefolders.isLoading,
     userFolders: state.filefolders.userFolders,
     userFiles: state.filefolders.userFiles,
     currentPath: state.filefolders.currentPath,
+    user: state.auth.user
   }));
 
   useEffect(()=>{
     if(isLoading){
-      dispatch(changeCurrentPathEvent(currentPath));
+      dispatch(changeCurrentPathEvent({"path": currentPath, "user": user}));
     }
-  }, [currentPath, dispatch, isLoading])
+  }, [currentPath, dispatch, isLoading, user])
 
   useEffect(() =>{
     if(pathname.includes("/file/")){
