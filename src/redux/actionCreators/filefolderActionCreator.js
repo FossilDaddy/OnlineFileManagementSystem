@@ -1,4 +1,4 @@
-import { getFoldersAndFilesFromS3 } from "../../backend/filefolderBackend";
+import { getFoldersAndFilesFromS3, createNewFolderToS3 } from "../../backend/filefolderBackend";
 import { CREATE_FOLDER, GET_USER_FOLDERS_AND_FILES, SET_LOADING, CHANGE_CURRENT_PATH, CREATE_USER_FILE, UPDATE_USER_FILE_DATA, UPLOAD_USER_FILE } from "../actionTypes/filefoldersActionTypes";
 
 const setLoading = (payload) =>({
@@ -26,9 +26,11 @@ const createFolder = (payload) =>({
 
 export const createFolderEvent = (data, setIsCreateSuccess) =>(dispatch)=>{
   //backend api needed.
-  dispatch(createFolder(data));
-  alert("Folder Created Sucessfully");
-  setIsCreateSuccess(true);
+  createNewFolderToS3(data, ()=>{
+    dispatch(createFolder(data));
+    alert("Folder Created Sucessfully");
+    setIsCreateSuccess(true);
+  })
 }
 
 const changeFolder = (payload) =>({

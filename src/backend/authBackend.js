@@ -21,15 +21,13 @@ export async function getUserFromServer(data, callback) {
 
 const registerUrl = "http://localhost:8080/register"
 export async function registerUserToServer(data,callback) {
-    console.log(data);
-
     await fetch(registerUrl, {
     method: "POST", 
     headers: {
         'Accept': "application/json",
         'Content-Type': "application/json"
     },
-    body: JSON.stringify(data) //JSON.stringify({"userName":data.userName,"password":data.password})
+    body: JSON.stringify(data) 
     })
     .then((response) => response.json())
     .then((data) => {

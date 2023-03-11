@@ -43,7 +43,7 @@ const CreateFolderPanel = ({setIsCreateFolderPanelOpen}) => {
         const data = {
           name: folderName,
           type: "folder",
-          userId: user ? user.uid : 0,
+          user: user,
           path: currentPath,
         };
         dispatch(createFolderEvent(data, setIsCreateSuccess));
