@@ -16,7 +16,7 @@ export async function getFoldersAndFilesFromS3(data, callback) {
     const result = await response.json();
     if (result.status === "error") {
         // pop up warning window for error message.
-        alert("Fetching data error");
+       alert("Fetching data error");
     }
     const filefolders = result.status === "success" && result.content !== undefined
         ? mapResponseToFilesFolders(result.content, user.username + "/" + path + "/") 
