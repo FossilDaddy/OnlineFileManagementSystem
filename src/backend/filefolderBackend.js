@@ -44,3 +44,23 @@ export async function uploadFileToS3(file, data, callback) {
     }
     callback();
 }
+
+export async function createNewFolderToS3(data, callback){
+    console.log(data);
+    await fetch(apiBaseUrl + "/users/" + data.user.username + "/createFolder",{
+        method: "POST",
+        headers: {
+            "Authorization": "Basic " + btoa(`${data.user.username}:${data.user.password}`),
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+        },
+        body: JSON.stringify({ "key": `${data.user.username}/${data.path}/${data.name}/`}),
+    })
+    .then((response) => (response.json()))
+    .then(()=>{
+        callback();
+    })
+    .catch((error) => {
+        console.error("Error:", error);
+    });
+}
