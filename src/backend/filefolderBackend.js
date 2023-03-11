@@ -46,7 +46,6 @@ export async function uploadFileToS3(file, data, callback) {
 }
 
 export async function createNewFolderToS3(data, callback){
-    console.log(data);
     await fetch(apiBaseUrl + "/users/" + data.user.username + "/createFolder",{
         method: "POST",
         headers: {
@@ -57,10 +56,35 @@ export async function createNewFolderToS3(data, callback){
         body: JSON.stringify({ "key": `${data.user.username}/${data.path}/${data.name}/`}),
     })
     .then((response) => (response.json()))
-    .then(()=>{
-        callback();
+    .then((response)=>{
+        if(response.error){
+            alert("Error:", response.error);
+        }else{
+            callback();
+        }
     })
-    .catch((error) => {
-        console.error("Error:", error);
-    });
+}
+
+export async function createNewFileToS3(data, callback){
+    console.log(data, `${data.user.username}/${data.path}/${data.name}`);
+    
+    await fetch(apiBaseUrl + "/users/" + data.user.username + "/createFile", {
+        method: "POST",
+        headers: {
+            "Authorization" : "Basic " + btoa(`${data.user.username}:${data.user.password}`),
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            "key": `${data.user.username}/${data.path}/${data.name}`,
+            "type": "plain/text",
+            })
+    })
+    .then((response) => (response.json()))
+    .then((response)=>{
+        if(response.error){
+            alert("Error:", response.error);
+        }else{
+            callback();
+        }
+    })
 }

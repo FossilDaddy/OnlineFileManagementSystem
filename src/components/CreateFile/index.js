@@ -46,7 +46,7 @@ const CreateFilePanel = ({setIsCreateFilePanelOpen}) => {
         const data = {
           name: extension ? fileName : `${fileName}.txt`,
           type: "file",
-          userId: user ? user.uid : 0,
+          user: user,
           path: currentPath,
           extension: extension ? fileName.split(".")[1] : "txt", 
           data: "",

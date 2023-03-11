@@ -8,15 +8,21 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  
+
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleSubmit = (e)=>{
     e.preventDefault();
+    setIsLoading(true);
     if(username && password){
         const data={
             username: username,
             password: password
         };
-        dispatch(getUserNameAndPassWordEvent(data, () => {navigate("/dashboard")}));
+        dispatch(getUserNameAndPassWordEvent(data, () => {
+            setIsLoading(false);
+            navigate("/dashboard")
+        }));
     }
     else{
         alert("username or password cannot be blank");
@@ -41,7 +47,7 @@ const LoginPage = () => {
                             />
 
                         </div>
-                        <button type="submit" className="btn btn-primary my-2 form-control" >Login
+                        <button type="submit" className="btn btn-primary my-2 form-control" disabled={isLoading}>Login
                         </button>
                     </form>
                     <Link to="/register">

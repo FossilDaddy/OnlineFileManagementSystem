@@ -12,7 +12,6 @@ export async function getUserFromServer(data, callback) {
     })
     .then(response => response.json())
     .then(() => {
-        alert("login successful");
         callback(data);
     }).catch(() => {
         alert("login unsuccessful");
@@ -31,7 +30,6 @@ export async function registerUserToServer(data,callback) {
     })
     .then((response) => response.json())
     .then((data) => {
-        console.log("Success:", data);
         alert("Register Successfully!")
         callback();
     })
