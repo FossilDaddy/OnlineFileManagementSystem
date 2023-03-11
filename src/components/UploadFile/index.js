@@ -8,6 +8,8 @@ import { uploadUserFileEvent } from '../../redux/actionCreators/filefolderAction
 const UploadFilePanel = ({setIsUploadFilePanelOpen}) => {
 
   const [file, setFile] = useState("");
+  const [isButtonActive, setButtonActive] = useState(true);
+  
   const {userFiles, user, currentPath} = useSelector((state) => ({
     userFiles: state.filefolders.userFiles,
     user: state.auth.user,
@@ -23,6 +25,7 @@ const UploadFilePanel = ({setIsUploadFilePanelOpen}) => {
   const [isCreateSuccess, setIsCreateSuccess] = useState(false);
   useEffect(()=>{
     if(isCreateSuccess){
+      setButtonActive(true);
       setFile("");
       setIsCreateSuccess(false);
       setIsUploadFilePanelOpen(false);
@@ -31,6 +34,7 @@ const UploadFilePanel = ({setIsUploadFilePanelOpen}) => {
 
   const handleSubmit = (e) =>{
     e.preventDefault();
+    setButtonActive(false);
     if(file){
       if(!checkFileAlreadyExist(file.name)){
         const data = {
@@ -68,7 +72,7 @@ const UploadFilePanel = ({setIsUploadFilePanelOpen}) => {
                 onChange={(e)=> setFile(e.target.files[0])}
                 />
               </div>
-              <button type="submit" className='btn btn-primary mt-5 form-control' >Upload</button>
+              <button type="submit" className='btn btn-primary mt-5 form-control' disabled={!isButtonActive}>Upload</button>
             </form>
           </div>
         </div>

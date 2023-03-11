@@ -14,7 +14,7 @@ export async function getUserFromServer(data, callback) {
     .then(() => {
         callback(data);
     }).catch(() => {
-        alert("login unsuccessful");
+        alert("Login Failed! Please check your username/password.");
     });
 }
 
