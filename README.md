@@ -23,7 +23,7 @@ https://github.com/hzhai96/AWSOnlineFileStorageSystem
 
 In the project directory, you can run:
 
-### `yarn install'
+### `yarn install`
 Install dependencies packages
 
 ### `npm start` or `yarn start`
