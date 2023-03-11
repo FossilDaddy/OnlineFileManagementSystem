@@ -30,7 +30,6 @@ const DashboardPage = () => {
   }));
 
   useEffect(()=>{
-    console.log("dashboard", isLoggedIn);
     if(!isLoggedIn){
       navigate("/");
     }
