@@ -8,6 +8,7 @@ import { createFileEvent } from '../../redux/actionCreators/filefolderActionCrea
 const CreateFilePanel = ({setIsCreateFilePanelOpen}) => {
 
   const [fileName, setFileName] = useState("");
+  const [isButtonActive, setButtonActive] = useState(true);
   const {userFiles, user, currentPath} = useSelector((state) => ({
     userFiles: state.filefolders.userFiles,
     user: state.auth.user,
@@ -23,6 +24,7 @@ const CreateFilePanel = ({setIsCreateFilePanelOpen}) => {
   const [isCreateSuccess, setIsCreateSuccess] = useState(false);
   useEffect(()=>{
     if(isCreateSuccess){
+      setButtonActive(true);
       setFileName("");
       setIsCreateSuccess(false);
       setIsCreateFilePanelOpen(false);
@@ -30,6 +32,7 @@ const CreateFilePanel = ({setIsCreateFilePanelOpen}) => {
   }, [isCreateSuccess, setIsCreateFilePanelOpen])
 
   const handleSubmit = (e) =>{
+    setButtonActive(false);
     e.preventDefault();
     if(!fileName){
       alert("file name cannot be empty");
@@ -77,7 +80,7 @@ const CreateFilePanel = ({setIsCreateFilePanelOpen}) => {
                 onChange={(e)=> setFileName(e.target.value)}
                 />
               </div>
-              <button type="submit" className='btn btn-primary mt-5 form-control' >Create</button>
+              <button type="submit" className='btn btn-primary mt-5 form-control' disabled={!isButtonActive}>Create</button>
             </form>
           </div>
         </div>

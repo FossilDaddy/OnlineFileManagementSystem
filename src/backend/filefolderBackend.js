@@ -66,8 +66,6 @@ export async function createNewFolderToS3(data, callback){
 }
 
 export async function createNewFileToS3(data, callback){
-    console.log(data, `${data.user.username}/${data.path}/${data.name}`);
-    
     await fetch(apiBaseUrl + "/users/" + data.user.username + "/createFile", {
         method: "POST",
         headers: {

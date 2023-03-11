@@ -7,18 +7,23 @@ const RegisterPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const dispatch=useDispatch();
   const navigate = useNavigate();
 
   const handleSubmit = (e)=>{
     e.preventDefault();
+    setIsLoading(true);
     if(username && password && password === passwordConfirm){
         const data={
             "userName":username,
             password
         };
-        dispatch(registerUserEvent(data, ()=>{navigate("/login")}));
+        dispatch(registerUserEvent(data, ()=>{
+          navigate("/login")
+          setIsLoading(false);
+        }));
     }
     else{
         alert("please confirm your password");
@@ -48,7 +53,7 @@ const RegisterPage = () => {
                           onChange={(e) => setPasswordConfirm(e.target.value)}
                       />
                   </div>
-                  <button type="submit"  className="btn btn-primary my-2 form-control">Register
+                  <button type="submit"  className="btn btn-primary my-2 form-control" disabled={isLoading}>Register
                   </button>
           </form>
               <Link to="/login">

@@ -9,6 +9,7 @@ const CreateFolderPanel = ({setIsCreateFolderPanelOpen}) => {
 
   const [folderName, setFolderName] = useState("");
   const [isCreateSuccess, setIsCreateSuccess] = useState(false);
+  const [isButtonActive, setButtonActive] = useState(true);
 
   const {userFolders, user, currentPath} = useSelector((state) => ({
     userFolders: state.filefolders.userFolders,
@@ -25,6 +26,7 @@ const CreateFolderPanel = ({setIsCreateFolderPanelOpen}) => {
 
   useEffect(()=>{
     if(isCreateSuccess){
+      setButtonActive(true);
       setIsCreateSuccess(false);
       setFolderName("");
       setIsCreateFolderPanelOpen(false);
@@ -33,6 +35,7 @@ const CreateFolderPanel = ({setIsCreateFolderPanelOpen}) => {
 
   const handleSubmit = (e) =>{
     e.preventDefault();
+    setButtonActive(false);
     if(!folderName){
       alert("folder name cannot be empty");
     }else{
@@ -72,7 +75,7 @@ const CreateFolderPanel = ({setIsCreateFolderPanelOpen}) => {
                 onChange={(e)=> setFolderName(e.target.value)}
                 />
               </div>
-              <button type="submit" className='btn btn-primary mt-5 form-control' >Create</button>
+              <button type="submit" className='btn btn-primary mt-5 form-control' disabled={!isButtonActive}>Create</button>
             </form>
           </div>
         </div>
