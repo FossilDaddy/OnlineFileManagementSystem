@@ -1,5 +1,9 @@
 # OnlineFileManangetmentSystem React App
 
+# Backend Part
+## Repo Link:
+https://github.com/hzhai96/AWSOnlineFileStorageSystem
+# Frontend Part
 ## Core Project Structure
 ```
 .
