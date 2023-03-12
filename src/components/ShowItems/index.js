@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileAlt, faFolder } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { changeCurrentPathEvent } from "../../redux/actionCreators/filefolderActionCreator";
+import { changeCurrentPathEvent, getFileEvent } from "../../redux/actionCreators/filefolderActionCreator";
 
 const ShowItems = ({tittle, items}) => {
   
@@ -15,6 +15,9 @@ const ShowItems = ({tittle, items}) => {
   }));
   const handleDoubleClick = (item) =>{
     if(item.type && item.type === 'file'){
+      if (!item.data) {
+        dispatch(getFileEvent({"user": user, "path": `${currentPath}/${item.name}`}, item.name));
+      }
       navigate(`/dashboard/file/${item.name}`);
     }else{
       dispatch(changeCurrentPathEvent({"userId": `${user}`, "path": `${currentPath}/${item.name}`}));

@@ -45,7 +45,7 @@ export async function uploadFileToS3(file, data, callback) {
     callback();
 }
 
-export async function createNewFolderToS3(data, callback){
+export async function createNewFolderToS3(data, callback) {
     await fetch(apiBaseUrl + "/users/" + data.user.username + "/createFolder",{
         method: "POST",
         headers: {
@@ -73,9 +73,10 @@ export async function createNewFileToS3(data, callback){
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            "key": `${data.user.username}/${data.path}/${data.name}`,
+            "key": data.key === undefined ? `${data.user.username}/${data.path}/${data.name}` : data.key,
             "type": "plain/text",
-            })
+            "data": data.data
+        })
     })
     .then((response) => (response.json()))
     .then((response)=>{
@@ -85,4 +86,21 @@ export async function createNewFileToS3(data, callback){
             callback();
         }
     })
+}
+
+export async function getObjectContentFromS3(data, callback) {
+    const response = await fetch(apiBaseUrl + "/users/" + data.user.username + "/getFile?" + new URLSearchParams({key: data.user.username + "/" + data.path}), {
+        mothod: "GET",
+        headers: {
+            "Authorization": "Basic " + btoa(`${data.user.username}:${data.user.password}`),
+        }
+    });
+    if (!response.ok) {
+        throw new Error(response.status);
+    }
+    const result = await response.json();
+    if (result.status === "error") {
+        alert("Error: " + result.message);
+    }
+    callback(result.content);
 }

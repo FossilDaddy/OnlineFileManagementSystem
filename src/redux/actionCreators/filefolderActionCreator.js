@@ -1,5 +1,5 @@
 
-import { getFoldersAndFilesFromS3, createNewFolderToS3, uploadFileToS3, createNewFileToS3 } from "../../backend/filefolderBackend";
+import { getFoldersAndFilesFromS3, createNewFolderToS3, uploadFileToS3, createNewFileToS3, getObjectContentFromS3 } from "../../backend/filefolderBackend";
 
 import { CREATE_FOLDER, GET_USER_FOLDERS_AND_FILES, SET_LOADING, CHANGE_CURRENT_PATH, CREATE_USER_FILE, UPDATE_USER_FILE_DATA } from "../actionTypes/filefoldersActionTypes";
 
@@ -63,10 +63,20 @@ const updateFile = (payload) =>({
   payload,
 })
 
-export const updateFileEvent = (name, data) => (dispatch) =>{
-  dispatch(updateFile({name, data}));
+export const updateFileEvent = (fileName, data) => (dispatch) => {
+  dispatch(updateFile({"name": fileName, "data": data}));
   alert("File Update Successfully");
 } 
+
+export const updateExistingFileEvent = (data) => (dispatch) => {
+  createNewFileToS3(data, () => {});
+}
+
+export const getFileEvent = (data, fileName) => (dispatch) => {
+  getObjectContentFromS3(data, (result) => {
+    dispatch(updateFile({"name": fileName, "data": result}));
+  });
+}
 
 
 export const uploadUserFileEvent = (file, data, setIsCreateSuccess) => (dispatch) => {
