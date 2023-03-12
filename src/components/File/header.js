@@ -1,12 +1,19 @@
 import { faArrowLeftLong, faSave } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { updateFileEvent } from "../../redux/actionCreators/filefolderActionCreator"
+import { updateFileEvent, updateExistingFileEvent } from "../../redux/actionCreators/filefolderActionCreator"
 
 const Header = ({fileName, fileData, prevFileData}) =>{
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const { currentFile, user } = useSelector((state)=>({
+    currentFile: state.filefolders.userFiles.find(
+      (file)=> file.name === fileName
+    ),
+    user: state.auth.user
+  }))
 
   return (
     <nav className="navbar navbar-expand-lg mt-1 navbar-light bg-white shadow-sm">
@@ -21,6 +28,7 @@ const Header = ({fileName, fileData, prevFileData}) =>{
                   disabled={fileData === prevFileData}
                   onClick={()=>{
                     dispatch(updateFileEvent(fileName, fileData))
+                    dispatch(updateExistingFileEvent({...currentFile, user: user, data: fileData}))
                   }}>
             <FontAwesomeIcon icon={faSave} /> &nbsp;
             Save
