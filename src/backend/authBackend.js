@@ -1,11 +1,11 @@
 
-const loginUrl = "http://localhost:8080/users/"
+const apiBaseUrl = "http://3.210.232.113:8080"
 
 export async function getUserFromServer(data, callback) {
     const path = data.username;
-    const basicAuth='Basic '+ btoa(data.username+":"+data.password);
+    const basicAuth = 'Basic '+ btoa(data.username+":"+data.password);
     
-    await fetch(loginUrl+path, {
+    await fetch(apiBaseUrl + "/users/" + path, {
         headers: {
             "Authorization":basicAuth
         }
@@ -18,9 +18,8 @@ export async function getUserFromServer(data, callback) {
     });
 }
 
-const registerUrl = "http://localhost:8080/register"
 export async function registerUserToServer(data,callback) {
-    await fetch(registerUrl, {
+    await fetch(apiBaseUrl + "/register", {
     method: "POST", 
     headers: {
         'Accept': "application/json",
