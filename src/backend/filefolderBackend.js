@@ -1,6 +1,6 @@
 import { mapResponseToFilesFolders } from "../utils/fileflderUtils"
 
-const apiBaseUrl = "http://localhost:8080"
+const apiBaseUrl = "http://3.210.232.113:8080"
 
 export async function getFoldersAndFilesFromS3(data, callback) {
     const path = data.path, user = data.user;
