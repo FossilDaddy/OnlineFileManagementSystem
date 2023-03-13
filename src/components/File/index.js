@@ -23,7 +23,9 @@ const FileComponent = () => {
   return (
     <>
       <Header fileName={currentFile.name} fileData={fileData} prevFileData={currentFile.data}/>
-      <CodeEditor fileName={currentFile.name} fileData={fileData} setFileData={setFileData}/>
+      {currentFile.data == null ? (
+        <h1 className='display-1 my-5 text-center'>Loading...</h1>
+      ) : (<CodeEditor fileName={currentFile.name} fileData={fileData} setFileData={setFileData}/>)}
     </>
     
   )
